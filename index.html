@@ -33,7 +33,8 @@
         <button class="module-btn" data-module="cases">3. 案例庫故事線 + IOC</button>
         <button class="module-btn" data-module="scenario">4. 情境排序測驗</button>
         <button class="module-btn" data-module="toolbox">5. 防禦工具箱</button>
-        <button class="module-btn" data-module="sources">6. 資料來源</button>
+        <button class="module-btn" data-module="checklist">6. 自我檢核清單</button>
+        <button class="module-btn" data-module="sources">7. 資料來源</button>
       </aside>
 
       <section class="content">
@@ -83,6 +84,13 @@
           <p>勾選你現在有的防禦工具，系統會顯示可阻斷的 Kill Chain 階段。</p>
           <form id="toolboxForm" class="toolbox-form"></form>
           <div id="toolboxResult" class="toolbox-result"></div>
+        </article>
+
+        <article id="module-checklist" class="module card" data-module="checklist">
+          <h2>自我檢核清單（90 天落地）</h2>
+          <p>勾選你已完成的項目，快速盤點目前防禦成熟度與下一步。</p>
+          <div id="checklistRoot" class="checklist"></div>
+          <div id="checklistSummary" class="checklist-summary"></div>
         </article>
 
         <article id="module-sources" class="module card" data-module="sources">

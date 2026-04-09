@@ -118,6 +118,24 @@ h1 { margin: .35rem 0 .4rem; font-size: clamp(1.5rem, 3vw, 2.3rem); }
 .toolbox-option { border-radius: 10px; padding: .5rem; }
 .coverage { margin-top: .6rem; display: flex; flex-wrap: wrap; gap: .4rem; }
 
+.checklist { display: grid; gap: .55rem; }
+.checklist-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .55rem;
+  align-items: start;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: .55rem .6rem;
+  background: var(--chip);
+}
+.checklist-summary {
+  margin-top: .75rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: .6rem .7rem;
+}
+
 .module-controls { display: flex; justify-content: space-between; gap: .5rem; }
 .btn {
   border: none; border-radius: 10px; padding: .55rem .8rem; cursor: pointer;

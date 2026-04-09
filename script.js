@@ -1,4 +1,4 @@
-const modules = ["roadmap", "phases", "cases", "scenario", "toolbox", "sources"];
+const modules = ["roadmap", "phases", "cases", "scenario", "toolbox", "checklist", "sources"];
 let currentModuleIndex = 0;
 
 const roadmapByLevel = {
@@ -156,6 +156,16 @@ const tools = [
   { name: "EASM", covers: ["Reconnaissance"] }
 ];
 
+const maturityChecklist = [
+  { stage: "Reconnaissance", item: "每月盤點外部攻擊面（網域、IP、暴露服務）", priority: "高" },
+  { stage: "Delivery", item: "郵件閘道啟用惡意連結重寫與附件沙箱", priority: "高" },
+  { stage: "Exploitation", item: "高風險漏洞（CVSS 9+）在 7 天內完成修補", priority: "高" },
+  { stage: "Installation", item: "伺服器與端點都已部署 EDR 並開啟告警回傳", priority: "高" },
+  { stage: "Command & Control", item: "對外連線啟用白名單或地理封鎖策略", priority: "中" },
+  { stage: "Actions on Objectives", item: "關鍵系統備份可離線保存並定期還原演練", priority: "高" },
+  { stage: "Respond / Recover", item: "事件通報、隔離、復原流程每季至少演練一次", priority: "中" }
+];
+
 const sources = [
   { name: "Lockheed Martin：Cyber Kill Chain 白皮書", url: "https://www.lockheedmartin.com/content/dam/lockheed-martin/rms/documents/cyber/Seven_Ways_to_Apply_the_Cyber_Kill_Chain_with_a_Threat_Intelligence_Platform.pdf" },
   { name: "MITRE ATT&CK", url: "https://attack.mitre.org/" },
@@ -178,6 +188,8 @@ const scenarioList = document.getElementById("scenarioList");
 const scenarioFeedback = document.getElementById("scenarioFeedback");
 const toolboxForm = document.getElementById("toolboxForm");
 const toolboxResult = document.getElementById("toolboxResult");
+const checklistRoot = document.getElementById("checklistRoot");
+const checklistSummary = document.getElementById("checklistSummary");
 const progressTracker = document.getElementById("progressTracker");
 const themeToggle = document.getElementById("themeToggle");
 
@@ -318,6 +330,44 @@ function renderToolbox() {
   });
 }
 
+function renderChecklist() {
+  checklistRoot.innerHTML = "";
+  const storageKey = "ckc-checklist";
+  const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
+
+  maturityChecklist.forEach((entry, idx) => {
+    const row = document.createElement("label");
+    row.className = "checklist-item";
+    row.innerHTML = `
+      <input type="checkbox" data-id="${idx}" ${saved.includes(idx) ? "checked" : ""}>
+      <span>
+        <strong>[${entry.priority}] ${entry.stage}</strong><br>
+        ${entry.item}
+      </span>
+    `;
+    checklistRoot.appendChild(row);
+  });
+
+  function updateSummary() {
+    const checked = [...checklistRoot.querySelectorAll("input:checked")].map((el) => Number(el.dataset.id));
+    localStorage.setItem(storageKey, JSON.stringify(checked));
+    const ratio = Math.round((checked.length / maturityChecklist.length) * 100);
+    const hint = ratio < 40
+      ? "先完成高優先項目（[高]）可快速降低風險。"
+      : ratio < 80
+        ? "已具備基礎防禦，建議補齊 C2 偵測與復原演練。"
+        : "成熟度良好，建議持續透過演練優化 MTTD/MTTR。";
+
+    checklistSummary.innerHTML = `
+      <p><strong>完成率：</strong>${checked.length}/${maturityChecklist.length}（${ratio}%）</p>
+      <p>${hint}</p>
+    `;
+  }
+
+  checklistRoot.addEventListener("change", updateSummary);
+  updateSummary();
+}
+
 function renderSources() {
   sourcesRoot.innerHTML = "";
   sources.forEach((s) => {
@@ -381,5 +431,6 @@ renderPhaseModule();
 renderCases();
 renderScenario();
 renderToolbox();
+renderChecklist();
 renderSources();
 activateModule("roadmap");

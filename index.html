@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cyber Kill Chain 互動學習站｜網路攻擊生命週期與資安教育</title>
+    <meta
+      name="description"
+      content="互動式 Cyber Kill Chain 教學平台：涵蓋網路攻擊生命週期、MITRE ATT&CK 對照、防禦矩陣、案例庫與情境測驗。"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="container hero-inner">
+        <div>
+          <p class="eyebrow">2026 互動版｜資安教育</p>
+          <h1>Cyber Kill Chain 互動學習站</h1>
+          <p>從宏觀攻擊流程到微觀 ATT&CK 技術，建立可實作的防禦思維。</p>
+        </div>
+        <button id="themeToggle" class="btn btn--ghost" aria-label="切換深色模式">🌙 Dark Mode</button>
+      </div>
+      <div class="container">
+        <div id="progressTracker" class="progress-tracker" aria-label="七階段進度"></div>
+      </div>
+    </header>
+
+    <main class="container app-layout">
+      <aside class="nav card" aria-label="學習模組導覽">
+        <h2>學習模組</h2>
+        <button class="module-btn active" data-module="roadmap">1. 入門到進階路線</button>
+        <button class="module-btn" data-module="phases">2. 七大階段 + ATT&CK</button>
+        <button class="module-btn" data-module="cases">3. 案例庫故事線 + IOC</button>
+        <button class="module-btn" data-module="scenario">4. 情境排序測驗</button>
+        <button class="module-btn" data-module="toolbox">5. 防禦工具箱</button>
+        <button class="module-btn" data-module="sources">6. 資料來源</button>
+      </aside>
+
+      <section class="content">
+        <article id="module-roadmap" class="module card active" data-module="roadmap">
+          <h2>入門到進階路線</h2>
+          <p>先選程度，系統會顯示該程度最重要的學習步驟。</p>
+          <div class="level-switch" role="tablist" aria-label="學習程度">
+            <button class="level-btn active" data-level="beginner">入門</button>
+            <button class="level-btn" data-level="intermediate">中階</button>
+            <button class="level-btn" data-level="advanced">進階</button>
+          </div>
+          <div id="roadmapContent" class="roadmap"></div>
+        </article>
+
+        <article id="module-phases" class="module card" data-module="phases">
+          <h2>互動式流程圖（點擊跳轉）</h2>
+          <p>點流程圖可平滑移動到該階段卡片。</p>
+          <div id="chainSvgNav" class="chain-nav" aria-label="Kill Chain 流程圖"></div>
+          <div id="phaseCards" class="phase-cards"></div>
+        </article>
+
+        <article id="module-cases" class="module card" data-module="cases">
+          <h2>案例庫（攻擊故事線）</h2>
+          <p>每個案例列出故事線、對應 Kill Chain 時點與 IOC 範例。</p>
+          <div class="filters">
+            <label for="caseFilter">依攻擊類型篩選：</label>
+            <select id="caseFilter">
+              <option value="all">全部</option>
+              <option value="supply-chain">供應鏈攻擊</option>
+              <option value="ransomware">勒索軟體</option>
+              <option value="data-breach">資料外洩</option>
+            </select>
+          </div>
+          <div id="caseList" class="case-list"></div>
+        </article>
+
+        <article id="module-scenario" class="module card" data-module="scenario">
+          <h2>情境式模擬測驗（拖曳排序）</h2>
+          <p>請將事件卡片依 Kill Chain 先後排序，完成後按「檢查答案」。</p>
+          <ul id="scenarioList" class="scenario-list"></ul>
+          <button id="checkScenario" class="btn">檢查答案</button>
+          <p id="scenarioFeedback"></p>
+        </article>
+
+        <article id="module-toolbox" class="module card" data-module="toolbox">
+          <h2>防禦工具箱</h2>
+          <p>勾選你現在有的防禦工具，系統會顯示可阻斷的 Kill Chain 階段。</p>
+          <form id="toolboxForm" class="toolbox-form"></form>
+          <div id="toolboxResult" class="toolbox-result"></div>
+        </article>
+
+        <article id="module-sources" class="module card" data-module="sources">
+          <h2>資料來源與延伸閱讀</h2>
+          <ul id="sources" class="sources"></ul>
+        </article>
+
+        <div class="module-controls card">
+          <button id="prevModule" class="btn btn--ghost">上一個模組</button>
+          <button id="nextModule" class="btn">下一個模組</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

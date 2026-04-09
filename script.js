@@ -1,63 +1,63 @@
 const roadmapByLevel = {
   beginner: [
-    "理解 Cyber Kill Chain 的目的：把攻擊拆成可防守的步驟。",
-    "認識七個階段：Recon → Weaponization → Delivery → Exploitation → Installation → C2 → Actions on Objectives。",
-    "學會最基本的防禦概念：最小權限、修補漏洞、多因子驗證、備份。"
+    "理解 Cyber Kill Chain 的核心：把攻擊拆成可觀測、可阻斷的流程。",
+    "認識七個階段與基本防禦：修補、MFA、備份、最小權限。",
+    "會用簡單案例對應攻擊鏈，建立事件判讀習慣。"
   ],
   intermediate: [
-    "將七階段對應到監控資料：Email Gateway、EDR、DNS、Proxy、SIEM。",
-    "建立偵測規則：可疑附件、異常 PowerShell、可疑 C2 流量、橫向移動跡象。",
-    "設計事件回應流程：分級、隔離、鑑識、復原、通報。"
+    "把七階段對應到 EDR、SIEM、DNS、Mail Gateway 的監控資料。",
+    "建立規則與劇本：釣魚攔截、異常程序鏈、可疑 C2 流量。",
+    "完善事件回應流程：分級、隔離、鑑識、復原、通報。"
   ],
   advanced: [
-    "用 ATT&CK Technique 對應 Kill Chain，補足細節與紫隊演練情境。",
-    "導入 Threat Intelligence：將 IOC/TTP 與告警做關聯，提高偵測信噪比。",
-    "建立量化指標：MTTD、MTTR、阻斷率、模擬演練覆蓋率，持續改善防禦。"
+    "將 Kill Chain 與 MITRE ATT&CK 技術層結合，做細緻映射。",
+    "導入威脅情資關聯 IOC/TTP，提高告警精準度。",
+    "以 MTTD、MTTR、阻斷率與演練覆蓋率持續優化防禦。"
   ]
 };
 
 const phases = [
   {
     name: "1. Reconnaissance",
-    attacker: "蒐集目標資訊（員工名單、技術堆疊、外網資產、供應鏈關係）。",
-    signals: ["大量探測掃描", "公開資訊蒐集痕跡", "針對特定員工社工前置活動"],
-    defense: ["外部攻擊面管理", "OSINT 監測", "安全意識訓練"]
+    attacker: "蒐集目標資訊（外網資產、員工、供應鏈）。",
+    signals: ["探測掃描", "特定對象社工前置", "公開資訊異常蒐整"],
+    defense: ["攻擊面管理", "OSINT 監測", "資安意識訓練"]
   },
   {
     name: "2. Weaponization",
-    attacker: "將惡意程式與利用手法組合成可投遞武器。",
-    signals: ["惡意樣本家族更新", "新漏洞利用鏈流出"],
-    defense: ["威脅情資訂閱", "沙箱分析", "漏洞管理前移"]
+    attacker: "將 exploit 與惡意程式組裝為攻擊載荷。",
+    signals: ["惡意樣本更新", "新漏洞利用鏈活動"],
+    defense: ["情資訂閱", "惡意樣本沙箱", "漏洞治理前移"]
   },
   {
     name: "3. Delivery",
-    attacker: "透過釣魚郵件、惡意連結、供應鏈更新等方式送達。",
-    signals: ["惡意附件", "異常下載", "可疑更新來源"],
-    defense: ["郵件與Web閘道", "URL重寫與掃描", "軟體簽章與來源驗證"]
+    attacker: "透過郵件、連結、供應鏈更新等方式投遞。",
+    signals: ["惡意附件", "可疑連結", "異常更新來源"],
+    defense: ["郵件/Web 閘道", "URL 掃描", "簽章與來源驗證"]
   },
   {
     name: "4. Exploitation",
-    attacker: "觸發漏洞或社工行為取得初始執行。",
-    signals: ["程序異常鏈", "漏洞利用特徵", "權限提升嘗試"],
-    defense: ["快速修補", "攻擊面縮減", "應用程式防護"]
+    attacker: "利用漏洞或使用者操作取得初始執行。",
+    signals: ["漏洞利用特徵", "權限提升", "程序鏈異常"],
+    defense: ["高風險漏洞快速修補", "攻擊面縮減", "端點防護"]
   },
   {
     name: "5. Installation",
-    attacker: "部署後門、排程、持久化機制。",
-    signals: ["新服務/排程任務", "啟動項目異常", "檔案完整性改變"],
-    defense: ["EDR 持續監控", "白名單執行控制", "主機硬化"]
+    attacker: "建立後門與持久化（服務、排程、啟動項）。",
+    signals: ["新服務/排程", "啟動項異常", "檔案完整性改變"],
+    defense: ["EDR", "白名單執行", "主機硬化"]
   },
   {
     name: "6. Command & Control",
-    attacker: "建立遠端控制通道，等待下達指令。",
-    signals: ["可疑 DNS beaconing", "非常見對外連線", "加密隧道異常"],
-    defense: ["出口流量管控", "DNS 安全策略", "網路分段"]
+    attacker: "建立可遠端操作的控制通道。",
+    signals: ["DNS beaconing", "非常見對外連線", "隧道化流量"],
+    defense: ["出口流量控制", "DNS 安全", "網路分段"]
   },
   {
     name: "7. Actions on Objectives",
-    attacker: "資料竊取、勒索加密、破壞營運。",
-    signals: ["大規模檔案讀取/壓縮", "敏感資料外傳", "橫向移動與域控存取"],
-    defense: ["DLP", "零信任存取", "離線備份與復原演練"]
+    attacker: "竊資、勒索、破壞營運。",
+    signals: ["大量敏感檔案讀取", "資料外傳", "橫向移動擴大"],
+    defense: ["DLP", "零信任存取", "離線備份與演練"]
   }
 ];
 
@@ -65,70 +65,52 @@ const cases = [
   {
     title: "SolarWinds 供應鏈事件（2020）",
     type: "supply-chain",
-    summary:
-      "攻擊者透過供應鏈植入，讓受害者在合法更新流程中中招，展現 Delivery 與 C2 階段的隱蔽性。",
+    summary: "合法更新流程被濫用，凸顯 Delivery/Installation/C2 的隱蔽性。",
     chainFocus: ["Delivery", "Installation", "C2"],
     link: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa20-352a"
   },
   {
     title: "Colonial Pipeline 勒索事件（2021）",
     type: "ransomware",
-    summary:
-      "勒索軟體造成關鍵基礎設施營運中斷，顯示初始入侵後到 Actions on Objectives 的速度可非常快。",
+    summary: "從入侵到營運中斷速度快，顯示早期偵測與隔離的重要性。",
     chainFocus: ["Exploitation", "Installation", "Actions on Objectives"],
     link: "https://www.justice.gov/opa/pr/department-justice-seizes-23-million-cryptocurrency-paid-ransomware-extortionists-darkside"
   },
   {
     title: "Equifax 資料外洩（2017）",
     type: "data-breach",
-    summary:
-      "未即時修補已知漏洞導致大規模個資外洩，突顯 Exploitation 階段的修補時效關鍵性。",
-    chainFocus: ["Reconnaissance", "Exploitation", "Actions on Objectives"],
+    summary: "已知漏洞未即時修補導致大規模個資外洩。",
+    chainFocus: ["Exploitation", "Actions on Objectives"],
     link: "https://www.ftc.gov/enforcement/refunds/equifax-data-breach-settlement"
   }
 ];
 
 const quiz = [
   {
-    q: "下列哪一項最能在 Delivery 階段前就降低風險？",
-    choices: ["只做災難復原演練", "建立郵件過濾與連結沙箱", "關閉所有日誌"],
+    q: "哪個控制最能在 Delivery 階段前降低風險？",
+    choices: ["只做備份", "郵件過濾與連結沙箱", "停用所有日誌"],
     answer: 1,
-    explain: "Delivery 常透過郵件/連結觸發，前置攔截可顯著減少進入點。"
+    explain: "Delivery 常由郵件與連結觸發，前置攔截最有效。"
   },
   {
-    q: "若你觀察到固定間隔對外 DNS 查詢，很可能對應哪個階段？",
-    choices: ["Reconnaissance", "Command & Control", "Weaponization"],
-    answer: 1,
-    explain: "規律 beaconing 是常見 C2 訊號。"
+    q: "規律的 DNS beaconing 最可能對應哪個階段？",
+    choices: ["Weaponization", "Reconnaissance", "Command & Control"],
+    answer: 2,
+    explain: "固定節奏對外呼叫是典型 C2 訊號。"
   }
 ];
 
 const sources = [
-  {
-    name: "Lockheed Martin：Seven Ways to Apply the Cyber Kill Chain®",
-    url: "https://www.lockheedmartin.com/content/dam/lockheed-martin/rms/documents/cyber/Seven_Ways_to_Apply_the_Cyber_Kill_Chain_with_a_Threat_Intelligence_Platform.pdf"
-  },
-  {
-    name: "CISA：Advanced Persistent Threat Compromise of Government Agencies, Critical Infrastructure, and Private Sector Organizations (AA20-352A)",
-    url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa20-352a"
-  },
-  {
-    name: "U.S. DOJ：Seizure of cryptocurrency paid to DarkSide (Colonial Pipeline case)",
-    url: "https://www.justice.gov/opa/pr/department-justice-seizes-23-million-cryptocurrency-paid-ransomware-extortionists-darkside"
-  },
-  {
-    name: "FTC：Equifax Data Breach Settlement",
-    url: "https://www.ftc.gov/enforcement/refunds/equifax-data-breach-settlement"
-  },
-  {
-    name: "MITRE ATT&CK（延伸學習）",
-    url: "https://attack.mitre.org/"
-  },
-  {
-    name: "Verizon 2025 DBIR（趨勢資料）",
-    url: "https://www.verizon.com/about/news/2025-data-breach-investigations-report"
-  }
+  { name: "Lockheed Martin：Cyber Kill Chain 參考資料", url: "https://www.lockheedmartin.com/content/dam/lockheed-martin/rms/documents/cyber/Seven_Ways_to_Apply_the_Cyber_Kill_Chain_with_a_Threat_Intelligence_Platform.pdf" },
+  { name: "CISA：AA20-352A (SolarWinds)", url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa20-352a" },
+  { name: "U.S. DOJ：DarkSide/Colonial Pipeline seizure", url: "https://www.justice.gov/opa/pr/department-justice-seizes-23-million-cryptocurrency-paid-ransomware-extortionists-darkside" },
+  { name: "FTC：Equifax Data Breach Settlement", url: "https://www.ftc.gov/enforcement/refunds/equifax-data-breach-settlement" },
+  { name: "MITRE ATT&CK", url: "https://attack.mitre.org/" },
+  { name: "Verizon 2025 DBIR", url: "https://www.verizon.com/about/news/2025-data-breach-investigations-report" }
 ];
+
+const modules = ["roadmap", "phases", "cases", "quiz", "sources"];
+let currentModuleIndex = 0;
 
 const roadmapContent = document.getElementById("roadmapContent");
 const phaseGrid = document.getElementById("phaseGrid");
@@ -137,6 +119,8 @@ const caseFilter = document.getElementById("caseFilter");
 const caseList = document.getElementById("caseList");
 const quizRoot = document.getElementById("quiz");
 const sourceRoot = document.getElementById("sources");
+const prevModule = document.getElementById("prevModule");
+const nextModule = document.getElementById("nextModule");
 
 function renderRoadmap(level) {
   roadmapContent.innerHTML = "";
@@ -183,10 +167,7 @@ function renderCases(type = "all") {
     el.className = "case";
     el.innerHTML = `
       <h3>${c.title}</h3>
-      <div>
-        <span class="tag">${c.type}</span>
-        ${c.chainFocus.map((f) => `<span class="tag">${f}</span>`).join("")}
-      </div>
+      <div>${c.chainFocus.map((f) => `<span class="tag">${f}</span>`).join("")}</div>
       <p>${c.summary}</p>
       <a href="${c.link}" target="_blank" rel="noopener noreferrer">閱讀來源</a>
     `;
@@ -199,20 +180,17 @@ function renderQuiz() {
   quiz.forEach((item, idx) => {
     const wrapper = document.createElement("div");
     wrapper.className = "quiz-item";
-    const question = document.createElement("p");
-    question.innerHTML = `<strong>Q${idx + 1}.</strong> ${item.q}`;
-    wrapper.appendChild(question);
+    wrapper.innerHTML = `<p><strong>Q${idx + 1}.</strong> ${item.q}</p>`;
 
     const feedback = document.createElement("div");
-    feedback.className = "quiz-feedback";
 
     item.choices.forEach((choice, cIdx) => {
       const btn = document.createElement("button");
       btn.textContent = choice;
       btn.addEventListener("click", () => {
         const correct = cIdx === item.answer;
-        feedback.className = `quiz-feedback ${correct ? "good" : "bad"}`;
-        feedback.textContent = `${correct ? "答對了！" : "再想想"} ${item.explain}`;
+        feedback.className = correct ? "good" : "bad";
+        feedback.textContent = `${correct ? "答對了！" : "再試一次。"} ${item.explain}`;
       });
       wrapper.appendChild(btn);
     });
@@ -231,12 +209,37 @@ function renderSources() {
   });
 }
 
+function activateModule(moduleKey) {
+  currentModuleIndex = modules.indexOf(moduleKey);
+  document.querySelectorAll(".module").forEach((el) => el.classList.remove("active"));
+  document.getElementById(`module-${moduleKey}`).classList.add("active");
+
+  document.querySelectorAll(".module-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.module === moduleKey);
+  });
+
+  prevModule.disabled = currentModuleIndex === 0;
+  nextModule.disabled = currentModuleIndex === modules.length - 1;
+}
+
+document.querySelectorAll(".module-btn").forEach((btn) => {
+  btn.addEventListener("click", () => activateModule(btn.dataset.module));
+});
+
 document.querySelectorAll(".level-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".level-btn").forEach((b) => b.classList.remove("active"));
     btn.classList.add("active");
     renderRoadmap(btn.dataset.level);
   });
+});
+
+prevModule.addEventListener("click", () => {
+  if (currentModuleIndex > 0) activateModule(modules[currentModuleIndex - 1]);
+});
+
+nextModule.addEventListener("click", () => {
+  if (currentModuleIndex < modules.length - 1) activateModule(modules[currentModuleIndex + 1]);
 });
 
 caseFilter.addEventListener("change", (e) => renderCases(e.target.value));
@@ -247,3 +250,4 @@ renderPhaseDetail(0);
 renderCases();
 renderQuiz();
 renderSources();
+activateModule("roadmap");

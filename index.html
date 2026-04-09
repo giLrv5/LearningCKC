@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cyber Kill Chain 互動學習站</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="container">
+        <p class="eyebrow">分段學習｜互動導覽</p>
+        <h1>Cyber Kill Chain 互動教學</h1>
+        <p>你可以像上課一樣一步步看，不會一次出現整頁資訊。</p>
+      </div>
+    </header>
+
+    <main class="container app-layout">
+      <aside class="nav card" aria-label="學習模組導覽">
+        <h2>學習模組</h2>
+        <button class="module-btn active" data-module="roadmap">1. 入門到進階路線</button>
+        <button class="module-btn" data-module="phases">2. 七大階段互動</button>
+        <button class="module-btn" data-module="cases">3. 真實案例分析</button>
+        <button class="module-btn" data-module="quiz">4. 快速測驗</button>
+        <button class="module-btn" data-module="sources">5. 資料來源</button>
+      </aside>
+
+      <section class="content">
+        <article id="module-roadmap" class="module card active" data-module="roadmap">
+          <h2>入門到進階路線</h2>
+          <p>先選程度，系統會顯示該程度最重要的學習步驟。</p>
+          <div class="level-switch" role="tablist" aria-label="學習程度">
+            <button class="level-btn active" data-level="beginner">入門</button>
+            <button class="level-btn" data-level="intermediate">中階</button>
+            <button class="level-btn" data-level="advanced">進階</button>
+          </div>
+          <div id="roadmapContent" class="roadmap"></div>
+        </article>
+
+        <article id="module-phases" class="module card" data-module="phases">
+          <h2>七大階段互動</h2>
+          <p>點擊任一階段，查看攻擊者行為、訊號與防禦重點。</p>
+          <div id="phaseGrid" class="phase-grid"></div>
+          <article id="phaseDetail" class="phase-detail" aria-live="polite"></article>
+        </article>
+
+        <article id="module-cases" class="module card" data-module="cases">
+          <h2>真實案例分析</h2>
+          <p>依攻擊類型篩選案例，查看其對應的 Kill Chain 重點。</p>
+          <div class="filters">
+            <label for="caseFilter">依攻擊類型篩選：</label>
+            <select id="caseFilter">
+              <option value="all">全部</option>
+              <option value="supply-chain">供應鏈攻擊</option>
+              <option value="ransomware">勒索軟體</option>
+              <option value="data-breach">資料外洩</option>
+            </select>
+          </div>
+          <div id="caseList" class="case-list"></div>
+        </article>
+
+        <article id="module-quiz" class="module card" data-module="quiz">
+          <h2>快速測驗</h2>
+          <p>立即檢查你是否真的掌握防禦關鍵。</p>
+          <div id="quiz"></div>
+        </article>
+
+        <article id="module-sources" class="module card" data-module="sources">
+          <h2>資料來源與延伸閱讀</h2>
+          <ul id="sources" class="sources"></ul>
+        </article>
+
+        <div class="module-controls card">
+          <button id="prevModule" class="btn btn--ghost">上一個模組</button>
+          <button id="nextModule" class="btn">下一個模組</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
